@@ -26,7 +26,8 @@ app.use('/bower_components', express.static(__dirname + '/bower_components'));
 app.use(express.static(__dirname + '/public'));
 
 // serve root
-app.get('/', require('./routes'));
+app.use('/', require('./routes'));
+app.use('/day', require('./routes/day'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
