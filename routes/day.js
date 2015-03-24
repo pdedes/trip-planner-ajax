@@ -21,7 +21,7 @@ dayRouter.get('/:id', function (req, res, next) {
 // DELETE /days/:id
 dayRouter.delete('/:id', function (req, res, next) {
     // deletes a particular day
-    db.days.remove({where: ...})
+    // db.days.remove({where: ...})
 });
 
 dayRouter.use('/:id', attractionRouter);
