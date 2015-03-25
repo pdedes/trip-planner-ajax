@@ -33,6 +33,14 @@ var addItemToList = function(type, activity) {
 	var template = templates.get('itinerary-item')
 	  .appendTo(list)
 
+	  $.ajax({
+	    type: 'POST',
+	    url: '/day/' + currentDay.dayNum + '/' + type,
+	    data: {"id": activity._id, "dayNum": currentDay.dayNum},
+	    success: function (response) {
+	      // console.log(response);
+	    }
+	  });
 
 	template.find('.title')
 	 .text(activity.name)

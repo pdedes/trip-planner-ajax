@@ -8,8 +8,11 @@ var $addDay = $('#add-day')
 var $dayTitle = $('#day-title span:first')
 
 var switchCurrentDay = function(day, $dayBtn) {
-  clearMap()
-  currentDay = day
+  clearMap();
+
+
+
+  currentDay = day;
   $dayTitle.text('Day ' + day.dayNum)
   $('.day-btn').removeClass('current-day')
   $dayBtn.addClass('current-day')
@@ -27,6 +30,7 @@ var switchCurrentDay = function(day, $dayBtn) {
   currentDay.thingsToDo.forEach(function(t) {
     addItemToList('thingsToDo', t)
   })
+
 }
 
 $addDay.on('click', function() {
@@ -39,7 +43,15 @@ $addDay.on('click', function() {
   }
 
   days.push(newDay)
-
+  
+  $.ajax({
+      type: 'POST',
+      url: '/day/',
+      data: {"day": newDay.dayNum},
+      success: function (response) {
+        // console.log(response);
+      }
+  });
 
   var newDayBtn = templates.get('day-btn')
     .text(newDay.dayNum)

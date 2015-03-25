@@ -2,6 +2,9 @@ var express = require('express'),
 	logger = require('morgan'),
 	swig = require('swig'),
 	sassMiddleware = require('node-sass-middleware');
+    bodyParser = require('body-parser');
+    day = require('./routes/day');
+    // attraction = require('./routes/attraction_router');
 
 var app = express();
 
@@ -21,13 +24,17 @@ app.use(sassMiddleware({
     debug: true
 }));
 
+app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.json());
+
 // serve static files
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
 app.use(express.static(__dirname + '/public'));
 
 // serve root
 app.use('/', require('./routes'));
-app.use('/day', require('./routes/day'));
+app.use('/day', day);
+// app.use('/day/:id', attraction);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
