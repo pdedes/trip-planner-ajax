@@ -30,6 +30,7 @@ var restaurantSchema = new mongoose.Schema({
 	price: {type: Number, min: 1, max: 5}
 });
 
+// The proper reference syntax here is not to use the Schema name but the variable name (i.e. 'Hotel' not 'hotelSchema');
 var daySchema = new mongoose.Schema({
 	number: Number,
 	hotel: {type: mongoose.Schema.Types.ObjectId, ref: 'hotelSchema'},

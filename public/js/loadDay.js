@@ -45,12 +45,13 @@ $( document ).ready(function() {
 	    url: '/day/',
 	    success: function (response) {
 	      console.log("Page Loaded with DB Persistence");
-	      daysFromDB =  response;
+	      daysFromDB = response;
 	    }
 	});
 
 	// Using the returned query of days from the DB...
 	// Loop over each, and draw the itinerary to it's respective day tab.
+	
 	// daysFromDB.forEach(function(day) {
 
 	// });
