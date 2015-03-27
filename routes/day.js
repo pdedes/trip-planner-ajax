@@ -6,9 +6,12 @@ var models = require('../models');
 
 dayRouter.get('/', function (req, res, next) {
     // serves up all days as json
-    // db.days.find({});
     console.log("Days GET Root");
-    res.send();
+
+    var dayDocuments = models.Day.find({}, function (err, days) {
+    	// var temp = JSON.stringify(dayDocuments);
+    	res.send(days);
+    });
 });
 // POST /days
 dayRouter.post('/', function (req, res, next) {
@@ -39,8 +42,16 @@ dayRouter.get('/:id', function (req, res, next) {
     // serves a particular day as json
 	// var day = parseInt(req.params.id);
     console.log("Days/ID GET Root", req.params.id);
-	res.send();
+    var dayServing = req.params.id;
+
+    // This is to query the database for the Day Document on Page/Day Load
+    // This is present previous session data persistently.
+    var dayDocument = models.Day.findOne({"number": dayServing}, function (err, day) {
+		res.send(dayDocument);
+    });
 });
+
+
 // DELETE /days/:id
 dayRouter.delete('/:id', function (req, res, next) {
     // deletes a particular day
@@ -55,20 +66,49 @@ dayRouter.use('/:id', attractionRouter);
 attractionRouter.post('/hotel', function (req, res, next) {
     // creates a reference to the hotel
     console.log("Attr. Router POST /hotel");
-    console.log(req);
+  
+  	var hotelID = req.body.id;
+    var dayNum = req.body.dayNum;
+
+    models.Day.findOneAndUpdate({number: dayNum}, {$addToSet: {restaurants: hotelID}}, function (err, day) {
+    	if(err) {
+    		console.log("FOAU Err: ", err);
+    	} else {
+    		console.log("Successful Restaurant Save: ");
+    	}
+    });
+
     res.send();
+
 });
+
+
 // DELETE /days/:id/hotel
 attractionRouter.delete('/hotel', function (req, res, next) {
     // deletes the reference of the hotel
 });
+
+
 // POST /days/:id/restaurants
 attractionRouter.post('/restaurants', function (req, res, next) {
     // creates a reference to a restaurant
     console.log("Attr. Router POST /restaurants");
-    console.log(req);
+  
+    var restaurantID = req.body.id;
+    var dayNum = req.body.dayNum;
+
+    models.Day.findOneAndUpdate({number: dayNum}, {$addToSet: {restaurants: restaurantID}}, function (err, day) {
+    	if(err) {
+    		console.log("FOAU Err: ", err);
+    	} else {
+    		console.log("Successful Restaurant Save: ");
+    	}
+    });
+
     res.send();
 });
+
+
 // DELETE /days/:dayId/restaurants/:restId
 attractionRouter.delete('/restaurant/:id', function (req, res, next) {
     // deletes a reference to a restaurant
@@ -99,6 +139,8 @@ attractionRouter.post('/thingsToDo', function (req, res, next) {
 
     res.send();
 });
+
+
 // DELETE /days/:dayId/thingsToDo/:thingId
 attractionRouter.delete('/thingsToDo/:id', function (req, res, next) {
     // deletes a reference to a thing to do

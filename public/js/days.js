@@ -43,7 +43,7 @@ $addDay.on('click', function() {
   }
 
   days.push(newDay)
-  
+
   $.ajax({
       type: 'POST',
       url: '/day/',
@@ -61,7 +61,7 @@ $addDay.on('click', function() {
     })
 
   switchCurrentDay(newDay, newDayBtn)
-})
+});
 
 
 
